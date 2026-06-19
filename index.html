@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder's Award — Jury Round | Kartik Chhabra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#6366F1;
+  --primary-dark:#4F46E5;
+  --secondary:#06B6D4;
+  --accent:#8B5CF6;
+  --success:#10B981;
+  --warning:#F59E0B;
+  --danger:#EF4444;
+  --bg:#0A0E27;
+  --bg-2:#0F172A;
+  --bg-3:#1E293B;
+  --border:rgba(148,163,184,0.14);
+  --text:#E2E8F0;
+  --muted:#94A3B8;
+  --dim:#64748B;
+}
+html,body{height:100%}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden}
+.slide{
+  position:absolute;inset:0;
+  padding:56px 72px 96px 72px;
+  display:flex;flex-direction:column;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+  overflow-y:auto;
+}
+.slide.active{opacity:1;transform:translateY(0);pointer-events:auto;z-index:10}
+
+/* shared backgrounds */
+.bg-grid::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(99,102,241,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(99,102,241,.05) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+  -webkit-mask-image:radial-gradient(ellipse at center,black 0%,transparent 75%);
+  pointer-events:none;
+}
+.bg-hero{
+  background:
+    radial-gradient(ellipse at top right,rgba(99,102,241,.28),transparent 60%),
+    radial-gradient(ellipse at bottom left,rgba(6,182,212,.20),transparent 55%),
+    linear-gradient(135deg,#0A0E27 0%,#1A1F3A 50%,#0F172A 100%);
+}
+.bg-soft{
+  background:
+    radial-gradient(circle at 85% 10%,rgba(99,102,241,.10),transparent 50%),
+    radial-gradient(circle at 10% 90%,rgba(6,182,212,.08),transparent 55%),
+    linear-gradient(180deg,#0A0E27 0%,#0F172A 100%);
+}
+
+/* slide chrome */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--secondary);
+  padding:8px 14px;border:1px solid rgba(6,182,212,.35);
+  background:rgba(6,182,212,.06);border-radius:999px;
+  width:fit-content;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--secondary);box-shadow:0 0 12px var(--secondary)}
+.slide-title{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:44px;font-weight:800;line-height:1.1;color:#fff;
+  margin-top:18px;letter-spacing:-.5px;
+}
+.slide-sub{
+  margin-top:14px;color:var(--muted);font-size:17px;line-height:1.55;max-width:900px;
+}
+
+/* slide 1 — hero */
+.hero{align-items:center;justify-content:center;text-align:center}
+.hero .badge{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--secondary);
+  padding:10px 18px;border:1px solid rgba(6,182,212,.4);border-radius:999px;
+  background:rgba(6,182,212,.06);
+}
+.hero h1{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:88px;font-weight:800;line-height:1.02;letter-spacing:-2px;
+  margin-top:28px;color:#fff;
+  background:linear-gradient(135deg,#fff 0%,#CBD5E1 60%,#94A3B8 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero .tag{
+  margin-top:24px;font-size:22px;color:var(--muted);max-width:780px;line-height:1.5;
+}
+.hero .meta{
+  margin-top:48px;display:flex;gap:36px;align-items:center;color:var(--dim);font-size:14px;
+  letter-spacing:1px;text-transform:uppercase;font-weight:600;
+}
+.hero .meta span{display:flex;align-items:center;gap:10px}
+.hero .meta .pip{width:6px;height:6px;border-radius:50%;background:var(--primary)}
+
+/* sections */
+.row{display:grid;gap:28px;margin-top:36px}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+
+.card{
+  background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.55));
+  border:1px solid var(--border);
+  border-radius:18px;padding:24px;
+  position:relative;overflow:hidden;
+}
+.card .num{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:13px;font-weight:800;color:var(--primary);
+  letter-spacing:2px;text-transform:uppercase;
+}
+.card h3{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  margin-top:8px;font-size:20px;font-weight:700;color:#fff;line-height:1.25;
+}
+.card p{margin-top:10px;color:var(--muted);font-size:14.5px;line-height:1.6}
+
+/* stat */
+.stat{
+  background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.55));
+  border:1px solid var(--border);border-radius:18px;padding:26px 24px;
+}
+.stat .label{color:var(--muted);font-size:12px;font-weight:600;letter-spacing:1.6px;text-transform:uppercase}
+.stat .value{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:54px;font-weight:800;line-height:1;color:#fff;margin-top:10px;letter-spacing:-1.5px;
+}
+.stat .value.gradient{
+  background:linear-gradient(135deg,#6366F1,#06B6D4);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat .note{margin-top:10px;color:var(--dim);font-size:13.5px;line-height:1.5}
+
+/* tags */
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:600;letter-spacing:.6px;
+  background:rgba(99,102,241,.12);color:#A5B4FC;border:1px solid rgba(99,102,241,.25);
+}
+.chip.cyan{background:rgba(6,182,212,.12);color:#67E8F9;border-color:rgba(6,182,212,.3)}
+.chip.green{background:rgba(16,185,129,.12);color:#6EE7B7;border-color:rgba(16,185,129,.3)}
+.chip.amber{background:rgba(245,158,11,.12);color:#FCD34D;border-color:rgba(245,158,11,.3)}
+
+/* arrow flow */
+.flow{display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center;margin-top:32px}
+.flow .panel{
+  background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.55));
+  border:1px solid var(--border);border-radius:18px;padding:24px;
+}
+.flow .panel h4{
+  font-family:'Plus Jakarta Sans',sans-serif;color:#fff;font-size:18px;font-weight:700;margin-bottom:10px;
+}
+.flow .panel p{color:var(--muted);font-size:14px;line-height:1.6}
+.flow .arrow{
+  font-size:32px;color:var(--primary);font-weight:200;
+}
+
+/* footer / nav */
+.footer{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:18px 36px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(180deg,transparent,rgba(10,14,39,.85));
+  z-index:20;
+}
+.brand{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase}
+.brand .mark{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,#6366F1,#06B6D4)}
+.nav{display:flex;align-items:center;gap:10px}
+.nav button{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(30,41,59,.6);border:1px solid var(--border);
+  color:#E2E8F0;font-size:16px;cursor:pointer;transition:all .2s ease;
+}
+.nav button:hover{background:rgba(99,102,241,.2);border-color:rgba(99,102,241,.4)}
+.counter{font-family:'Plus Jakarta Sans',sans-serif;color:var(--muted);font-size:13px;font-weight:600;letter-spacing:1px;min-width:48px;text-align:center}
+
+/* progress */
+.progress{position:absolute;top:0;left:0;right:0;height:3px;background:rgba(148,163,184,.08);z-index:30}
+.progress .bar{height:100%;background:linear-gradient(90deg,#6366F1,#06B6D4);transition:width .45s ease}
+
+/* slide 7 metric grid */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:32px}
+.metric{
+  background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.55));
+  border:1px solid var(--border);border-radius:16px;padding:20px;
+}
+.metric .k{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:var(--secondary);letter-spacing:1.6px;text-transform:uppercase}
+.metric .v{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:800;color:#fff;letter-spacing:-1px;margin-top:6px}
+.metric .l{color:var(--muted);font-size:12.5px;margin-top:8px;line-height:1.5}
+
+/* closing */
+.closing{align-items:center;justify-content:center;text-align:center}
+.closing .quote{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:56px;font-weight:800;line-height:1.15;letter-spacing:-1px;color:#fff;max-width:1000px;
+}
+.closing .quote em{
+  font-style:normal;
+  background:linear-gradient(135deg,#6366F1,#06B6D4);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.closing .sub{margin-top:28px;color:var(--muted);font-size:18px;max-width:780px;line-height:1.6}
+.closing .sign{margin-top:48px;color:var(--dim);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+
+/* slide-2 split */
+.split{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;margin-top:32px;flex:1;align-items:start}
+.pain-list{display:flex;flex-direction:column;gap:14px;margin-top:8px}
+.pain{
+  display:flex;gap:14px;align-items:flex-start;
+  background:linear-gradient(180deg,rgba(30,41,59,.45),rgba(15,23,42,.45));
+  border:1px solid var(--border);border-radius:14px;padding:16px 18px;
+}
+.pain .x{
+  flex-shrink:0;width:28px;height:28px;border-radius:8px;
+  background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);
+  color:#FCA5A5;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.pain p{color:var(--text);font-size:14.5px;line-height:1.55}
+.pain p strong{color:#fff}
+
+.aside{
+  background:linear-gradient(180deg,rgba(30,41,59,.55),rgba(15,23,42,.55));
+  border:1px solid var(--border);border-radius:18px;padding:24px;
+}
+.aside .k{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--secondary);font-weight:700;letter-spacing:1.6px;text-transform:uppercase}
+.aside .big{font-family:'Plus Jakarta Sans',sans-serif;font-size:64px;font-weight:800;color:#fff;line-height:1;letter-spacing:-2px;margin-top:8px;
+  background:linear-gradient(135deg,#fff,#94A3B8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.aside p{color:var(--muted);font-size:14px;line-height:1.6;margin-top:12px}
+
+@media print {
+  body{overflow:visible;background:#fff}
+  .deck{height:auto}
+  .slide{position:relative;opacity:1;transform:none;height:100vh;page-break-after:always}
+  .footer,.nav,.progress{display:none}
+}
+.preview-btn{
+  display:inline-flex;align-items:center;gap:7px;padding:7px 13px;
+  background:linear-gradient(135deg,rgba(99,102,241,.25),rgba(139,92,246,.18));
+  border:1px solid rgba(139,92,246,.5);border-radius:8px;
+  color:#C7D2FE;font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:.4px;
+  cursor:pointer;transition:all .2s ease;white-space:nowrap;
+}
+.preview-btn:hover{
+  background:linear-gradient(135deg,rgba(99,102,241,.45),rgba(139,92,246,.35));
+  color:#fff;border-color:rgba(167,139,250,.8);
+  box-shadow:0 4px 18px rgba(139,92,246,.3);transform:translateY(-1px);
+}
+</style>
+</head>
+<body>
+<div class="deck">
+  <div class="progress"><div class="bar" id="progressBar"></div></div>
+
+  <!-- SLIDE 1 — TITLE -->
+  <section class="slide hero bg-hero bg-grid active" data-slide="1">
+    <div class="badge">Founder's Awards 2026 · Jury Round</div>
+    <h1>From Static Reports<br/>to Real-Time Decisions.</h1>
+    <p class="tag">How three Claude-built dashboards reshaped Mio AI's product roadmap and the way clients measure ROI.</p>
+    <div class="meta">
+      <span><span class="pip"></span>Kartik Chhabra</span>
+      <span><span class="pip"></span>Sr. Product Analyst — Mio AI</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — SITUATION -->
+  <section class="slide bg-soft" data-slide="2">
+    <div class="eyebrow"><span class="dot"></span>The Situation</div>
+    <h2 class="slide-title" style="font-size:36px">A live product. Thousands of calls a day.<br/>Visibility — but not the kind you can act on.</h2>
+    <p class="slide-sub" style="font-size:15px;margin-top:10px">Mio AI was already running with 24–25 clients — driving lead qualification and reactivation campaigns at scale. Data existed, but it was being delivered through manual screenshots in a WhatsApp group — static, delayed, and impossible to interrogate in real time.</p>
+
+    <div class="split" style="margin-top:22px">
+      <div>
+        <div class="pain-list" style="gap:10px">
+          <div class="pain" style="padding:12px 14px"><div class="x">!</div><p style="font-size:13.5px"><strong>Manual reporting.</strong> QC pulled CRM data into Google Sheets, screenshotted the views, and posted them into a WhatsApp group.</p></div>
+          <div class="pain" style="padding:12px 14px"><div class="x">!</div><p style="font-size:13.5px"><strong>No real-time tracking.</strong> Stakeholders saw a snapshot from yesterday — never a live picture.</p></div>
+          <div class="pain" style="padding:12px 14px"><div class="x">!</div><p style="font-size:13.5px"><strong>No filters, no time-series.</strong> No way to slice by client, period, or trend on demand.</p></div>
+          <div class="pain" style="padding:12px 14px"><div class="x">!</div><p style="font-size:13.5px"><strong>Reactive decisions.</strong> Stakeholders worked off gut feel, not evidence — performance trends were invisible.</p></div>
+        </div>
+      </div>
+      <div class="aside" style="padding:16px">
+        <div class="k" style="margin-bottom:4px">Reporting System · WhatsApp Screenshots</div>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:10px">What stakeholders received every evening — static, ungovernable, hours behind reality.</p>
+
+        <div style="background:#fff;border-radius:6px;padding:8px;border:1px solid rgba(255,255,255,.1);margin-bottom:10px">
+          <svg viewBox="0 0 320 180" style="display:block;width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">
+            <text x="10" y="14" font-family="Arial" font-size="9" font-weight="700" fill="#111">Calls Connected vs. Total Calls Dialed</text>
+            <circle cx="110" cy="26" r="2.5" fill="#4285f4"/>
+            <text x="116" y="29" font-family="Arial" font-size="7" fill="#555">Calls Connected</text>
+            <circle cx="190" cy="26" r="2.5" fill="#ea4335"/>
+            <text x="196" y="29" font-family="Arial" font-size="7" fill="#555">Total Calls Dialed</text>
+
+            <line x1="40" y1="48" x2="40" y2="158" stroke="#999" stroke-width="0.5"/>
+            <line x1="40" y1="158" x2="310" y2="158" stroke="#999" stroke-width="0.5"/>
+            <line x1="40" y1="48" x2="310" y2="48" stroke="#eee" stroke-width="0.5"/>
+            <line x1="40" y1="76" x2="310" y2="76" stroke="#eee" stroke-width="0.5"/>
+            <line x1="40" y1="103" x2="310" y2="103" stroke="#eee" stroke-width="0.5"/>
+            <line x1="40" y1="131" x2="310" y2="131" stroke="#eee" stroke-width="0.5"/>
+
+            <text x="36" y="51" font-family="Arial" font-size="6.5" fill="#777" text-anchor="end">10000</text>
+            <text x="36" y="79" font-family="Arial" font-size="6.5" fill="#777" text-anchor="end">7500</text>
+            <text x="36" y="106" font-family="Arial" font-size="6.5" fill="#777" text-anchor="end">5000</text>
+            <text x="36" y="134" font-family="Arial" font-size="6.5" fill="#777" text-anchor="end">2500</text>
+            <text x="36" y="161" font-family="Arial" font-size="6.5" fill="#777" text-anchor="end">0</text>
+
+            <text x="58" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">2/26</text>
+            <text x="103" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">2/27</text>
+            <text x="148" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">3/02</text>
+            <text x="193" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">3/03</text>
+            <text x="238" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">4/03</text>
+            <text x="283" y="170" font-family="Arial" font-size="6" fill="#777" text-anchor="middle">5/03</text>
+
+            <polyline points="58,152 103,147 148,116 193,52 238,114 283,137" fill="none" stroke="#ea4335" stroke-width="1.6" stroke-linejoin="round"/>
+            <polyline points="58,155 103,153 148,156 193,103 238,142 283,152" fill="none" stroke="#4285f4" stroke-width="1.6" stroke-linejoin="round"/>
+
+            <circle cx="58" cy="152" r="2" fill="#ea4335"/>
+            <circle cx="103" cy="147" r="2" fill="#ea4335"/>
+            <circle cx="148" cy="116" r="2" fill="#ea4335"/>
+            <circle cx="193" cy="52" r="2" fill="#ea4335"/>
+            <circle cx="238" cy="114" r="2" fill="#ea4335"/>
+            <circle cx="283" cy="137" r="2" fill="#ea4335"/>
+
+            <circle cx="58" cy="155" r="2" fill="#4285f4"/>
+            <circle cx="103" cy="153" r="2" fill="#4285f4"/>
+            <circle cx="148" cy="156" r="2" fill="#4285f4"/>
+            <circle cx="193" cy="103" r="2" fill="#4285f4"/>
+            <circle cx="238" cy="142" r="2" fill="#4285f4"/>
+            <circle cx="283" cy="152" r="2" fill="#4285f4"/>
+
+            <text x="193" y="45" font-family="Arial" font-size="6.5" font-weight="700" fill="#ea4335" text-anchor="middle">9,800</text>
+            <text x="178" y="100" font-family="Arial" font-size="6.5" font-weight="700" fill="#4285f4" text-anchor="middle">4,959</text>
+            <text x="148" y="111" font-family="Arial" font-size="6" fill="#ea4335" text-anchor="middle">3,891</text>
+            <text x="238" y="109" font-family="Arial" font-size="6" fill="#ea4335" text-anchor="middle">3,992</text>
+          </svg>
+        </div>
+
+        <div style="background:#fff;border-radius:6px;padding:6px;border:1px solid rgba(255,255,255,.1);font-family:Arial,sans-serif;color:#111">
+          <div style="background:#FFEB3B;padding:3px 6px;font-weight:700;font-size:9px;margin-bottom:4px;border-radius:2px">Dated: 3/5/2026</div>
+          <table style="width:100%;border-collapse:collapse;font-size:8px">
+            <thead>
+              <tr style="background:#FCE5B6">
+                <th style="padding:3px 4px;border:1px solid #ccc;text-align:left;font-weight:700">Client Name</th>
+                <th style="padding:3px 4px;border:1px solid #ccc;font-weight:700">Dialed</th>
+                <th style="padding:3px 4px;border:1px solid #ccc;font-weight:700">Conn.</th>
+                <th style="padding:3px 4px;border:1px solid #ccc;font-weight:700">Conn %</th>
+                <th style="padding:3px 4px;border:1px solid #ccc;font-weight:700">Qual %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">IMS Ghaziabad</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">8,809</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">4,201</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">47.69%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">2.2%</td></tr>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">Lexicon Mile</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">19,239</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">8,044</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">41.81%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right;background:#FCA5A5">0.1%</td></tr>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">Uniapply</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">40,282</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">15,395</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">38.22%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">15.1%</td></tr>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">Christ University</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">10,783</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">4,614</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">42.79%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">1.0%</td></tr>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">ITM Business School</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">14,369</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">5,044</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">35.10%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right;background:#FCA5A5">0.8%</td></tr>
+              <tr><td style="padding:2px 4px;border:1px solid #ccc">Pimpri Chinchwad</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">7,666</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">3,172</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">41.38%</td><td style="padding:2px 4px;border:1px solid #ccc;text-align:right">1.3%</td></tr>
+              <tr style="background:#f5f5f5;font-weight:700">
+                <td style="padding:2px 4px;border:1px solid #ccc">Grand Total</td>
+                <td style="padding:2px 4px;border:1px solid #ccc;text-align:right">113,731</td>
+                <td style="padding:2px 4px;border:1px solid #ccc;text-align:right">46,359</td>
+                <td style="padding:2px 4px;border:1px solid #ccc;text-align:right">40.76%</td>
+                <td style="padding:2px 4px;border:1px solid #ccc;text-align:right">—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — ACTION -->
+  <section class="slide bg-soft" data-slide="3">
+    <div class="eyebrow"><span class="dot"></span>What I Built</div>
+    <h2 class="slide-title">Three Claude-built dashboards. One per Mio Voice workstream.</h2>
+    <p class="slide-sub">Connected each team's existing Google Sheets to live dashboards via the Sheets API — no workflow disruption. Three lenses on the same product: how it's adopted, how it onboards, and how it performs.</p>
+
+    <div style="display:flex;justify-content:flex-end;margin-top:16px">
+      <a class="preview-btn" href="https://mio-adoption.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open Dashboards
+      </a>
+    </div>
+
+    <div class="row cols-3" style="margin-top:10px;gap:18px">
+      <div class="card" style="padding:20px">
+        <div class="num">Dashboard 01</div>
+        <h3 style="font-size:19px;margin-top:4px">Mio Voice Adoption</h3>
+        <p style="margin-top:8px;font-size:13.5px">Total calls, connection rate, avg duration, adoption trends per client. <strong style="color:#fff">Surfaced the wrong-ROI methodology</strong> — and pointed to the need for Call Retry (Woxsen 58.79% vs DY Patil 35%).</p>
+      </div>
+      <div class="card" style="padding:20px">
+        <div class="num">Dashboard 02</div>
+        <h3 style="font-size:19px;margin-top:4px">Mio Voice Onboarding</h3>
+        <p style="margin-top:8px;font-size:13.5px">Tracks each client's onboarding milestones — from sign-up → DID provisioning → first live campaign. <strong style="color:#fff">Centralized visibility</strong> across rolling client launches.</p>
+      </div>
+      <div class="card" style="padding:20px">
+        <div class="num">Dashboard 03</div>
+        <h3 style="font-size:19px;margin-top:4px">Mio AI Voice QC</h3>
+        <p style="margin-top:8px;font-size:13.5px">Categorizes daily call issues by category + sub-category, tracks resolved/unresolved, ranks burning issues by frequency. <strong style="color:#fff">Drove avg call duration: 27.7s → 31.27s.</strong></p>
+      </div>
+    </div>
+
+    <div class="flow" style="margin-top:18px">
+      <div class="panel">
+        <h4>Before</h4>
+        <p>Manual sheets → screenshots → WhatsApp groups — three workstreams, all delayed, all static.</p>
+      </div>
+      <div class="arrow">→</div>
+      <div class="panel">
+        <h4>After</h4>
+        <p>Three live dashboards → filterable, interrogable, owned by the team. The data could now be <em style="color:#A5B4FC;font-style:normal">questioned</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — IMPACT 1 & 2 -->
+  <section class="slide bg-soft" data-slide="4">
+    <div class="eyebrow"><span class="dot"></span>Impact · Part 1</div>
+    <h2 class="slide-title">Two numbers surfaced — two things we worked on.</h2>
+
+    <div class="row cols-2" style="margin-top:28px;gap:24px">
+      <div>
+        <div class="stat" style="padding:20px 22px">
+          <div class="label">Call Connection Rate</div>
+          <div class="value gradient">~30%</div>
+          <div class="note">70 of every 100 calls were going unanswered — and unanswered leads were being dropped after a single attempt.</div>
+        </div>
+        <div class="card" style="margin-top:14px;padding:18px 20px">
+          <div class="num">What we're doing about it</div>
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:flex-start">
+            <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(99,102,241,.2);border:1px solid rgba(167,139,250,.5);color:#A5B4FC;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center">1</div>
+            <div>
+              <div style="font-size:14.5px;color:#fff;font-weight:700">Call Retry on Mio Voice <span style="font-size:10px;color:#A5B4FC;letter-spacing:1.2px;margin-left:6px">· IN DEV</span></div>
+              <p style="font-size:13px;margin-top:4px;color:var(--muted);line-height:1.55">Configurable retry attempts (2 / 3 / 4) + time gaps. Projected lift: <strong style="color:#6EE7B7">+10–20%</strong> connection rate.</p>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:flex-start">
+            <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(6,182,212,.2);border:1px solid rgba(34,211,238,.5);color:#67E8F9;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center">2</div>
+            <div>
+              <div style="font-size:14.5px;color:#fff;font-weight:700">Truecaller whitelisting + DID hygiene</div>
+              <p style="font-size:13px;margin-top:4px;color:var(--muted);line-height:1.55">QC dials every client's DID — if flagged as spam, we alert Client Success and <strong style="color:#fff">rotate the agent's DID number</strong>. Verified Truecaller IDs lift pickup rates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="stat" style="padding:18px 22px 20px">
+          <div class="label">Avg. Call Duration · Apr → May 2026</div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-top:18px">
+            <div style="flex:1;position:relative;height:28px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:84.16%;background:linear-gradient(90deg,rgba(245,158,11,.9),rgba(251,191,36,.95));border-radius:8px"></div>
+              <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:10px;color:#1A1410;font-weight:800;letter-spacing:1.4px;z-index:4">APR</span>
+            </div>
+            <span style="font-size:16px;color:#FBBF24;font-weight:800;min-width:58px;text-align:right;letter-spacing:-.3px">27.7s</span>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:14px;margin-top:10px">
+            <div style="flex:1;position:relative;height:28px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:8px">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:95%;background:linear-gradient(90deg,#10B981,#6EE7B7);border-radius:8px;box-shadow:0 0 14px rgba(110,231,183,.35)"></div>
+              <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:10px;color:#022C22;font-weight:800;letter-spacing:1.4px;z-index:4">MAY</span>
+            </div>
+            <span style="font-size:16px;color:#6EE7B7;font-weight:800;min-width:58px;text-align:right;letter-spacing:-.3px">31.27s</span>
+          </div>
+
+          <div style="margin-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 10px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.35);border-radius:6px;color:#6EE7B7;font-weight:800;font-size:12.5px;letter-spacing:.2px">▲ +3.57s · +12.9%</span>
+            <span style="color:var(--muted);font-size:12.5px;line-height:1.5;flex:1;min-width:180px">More call duration → directly proportional to Mio pulses billed.</span>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px;padding:18px 20px">
+          <div class="num">What we're doing about it</div>
+          <div style="margin-top:12px;display:flex;gap:12px;align-items:flex-start">
+            <div style="flex-shrink:0;width:26px;height:26px;border-radius:50%;background:rgba(16,185,129,.2);border:1px solid rgba(110,231,183,.5);color:#6EE7B7;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center">QC</div>
+            <div>
+              <div style="font-size:14.5px;color:#fff;font-weight:700">Prompt-level + technical-level QC</div>
+              <p style="font-size:13px;margin-top:4px;color:var(--muted);line-height:1.55">QC team flags prompt issues; I resolve <strong style="color:#fff">System Detection + STT (multilingual transcriber)</strong> gaps. Together we eliminate abrupt endings & broken conversational flow — every fix lengthens calls and lifts pulses billed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — IMPACT 3 -->
+  <section class="slide bg-soft" data-slide="5">
+    <div class="eyebrow"><span class="dot"></span>Impact · Part 2</div>
+    <h2 class="slide-title" style="font-size:36px">The data was misleading. We were down-selling ourselves.</h2>
+    <p class="slide-sub" style="font-size:15px;margin-top:10px">Clients without retry manually relaunched campaigns, dialing the same lead 3–4 times. Every dial counted separately — total dials inflated, connection rate stuck. The dashboard was making Mio look worse than it was.</p>
+
+    <div class="row cols-2" style="margin-top:18px;gap:20px">
+      <div class="stat" style="padding:18px 20px">
+        <div class="label">Old Methodology · Call-level</div>
+        <div class="value" style="color:#F87171;font-size:44px">~30%</div>
+        <div class="note">Counted every dial separately — even for the same lead.</div>
+      </div>
+      <div class="stat" style="padding:18px 20px">
+        <div class="label">New Methodology · Lead-level</div>
+        <div class="value" style="color:#6EE7B7;font-size:44px">~56%</div>
+        <div class="note">A lead is "connected" if they picked up at least once. Same product — finally measured correctly.</div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;padding:28px 32px;background:linear-gradient(135deg,rgba(99,102,241,.22),rgba(139,92,246,.14) 50%,rgba(99,102,241,.10));border:1px solid rgba(139,92,246,.4);border-left:4px solid var(--primary);border-radius:12px;box-shadow:0 10px 40px rgba(99,102,241,.12)">
+      <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap">
+        <div style="flex:1;min-width:280px">
+          <div style="font-size:11px;letter-spacing:2px;color:#A5B4FC;font-weight:800;text-transform:uppercase">From Insight → Client-Facing Release</div>
+          <h3 style="font-size:24px;margin-top:10px;color:#fff;font-weight:800;line-height:1.3;letter-spacing:-.3px">We revamped & shipped the<br/>Mio AI Insights Dashboard.</h3>
+          <p style="margin-top:10px;font-size:14px;color:var(--text);line-height:1.6">Rolled out to <strong style="color:#fff">every live client on Mio Voice</strong> — with the new lead-level methodology baked in. Clients now see Unique Contacts, Avg Attempts / Contact, and <strong style="color:#fff">Goal Achieved</strong> — the number that justifies renewal.</p>
+        </div>
+        <a class="preview-btn" href="https://kvq5nvr96w.in1.nopaperforms.io/backend/agents/ai-voice-dashboard" target="_blank" rel="noopener noreferrer" style="font-size:13px;padding:10px 18px;align-self:flex-start">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open Live Dashboard
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 6 — IMPACT 4/5/6 -->
+  <section class="slide bg-soft" data-slide="6">
+    <div class="eyebrow"><span class="dot"></span>Impact · Part 3</div>
+    <h2 class="slide-title">Three more levers — each born from the same data.</h2>
+
+    <div class="row cols-3" style="margin-top:32px">
+      <div class="card">
+        <div class="num">Lever 01</div>
+        <h3>Call Connectivity Heat Map → Best-Hour Recommendations</h3>
+        <p>Visualizes pickup rates by hour × day of week, per client's own history. Mio will start <strong style="color:#fff">recommending the best hours</strong> to schedule campaigns — higher connection rate = more calls picked = more revenue.</p>
+        <span class="chip green" style="margin-top:14px">Zero-cost performance lever</span>
+      </div>
+      <div class="card">
+        <div class="num">Lever 02</div>
+        <h3>DID Number Health Checks</h3>
+        <p>Identified that spam-flagged or "loan recovery"-labeled numbers were silently killing connection rates. Embedded a manual DID test into every QC review — flagged numbers loop in Client Success immediately.</p>
+        <span class="chip amber" style="margin-top:14px">Embedded into QC workflow</span>
+      </div>
+      <div class="card">
+        <div class="num">Lever 03</div>
+        <h3>Truecaller Verification</h3>
+        <p>Recommended verified business identity for low-pickup clients. Turns caller identity from liability into a trust signal — more pickups → more calls → more pulse revenue.</p>
+        <span class="chip cyan" style="margin-top:14px">Data-driven client advisory</span>
+      </div>
+    </div>
+
+    <p class="slide-sub" style="margin-top:32px">Every lever above was a <strong style="color:#fff">direct consequence</strong> of the dashboard surfacing the right question — and the discipline to follow the data wherever it led.</p>
+  </section>
+
+  <!-- SLIDE 7 — SUMMARY -->
+  <section class="slide bg-soft" data-slide="7">
+    <div class="eyebrow"><span class="dot"></span>What It Adds Up To</div>
+    <h2 class="slide-title">One foundation. A whole intelligence layer.</h2>
+
+    <div class="metrics" style="grid-template-columns:repeat(2,1fr)">
+      <div class="metric">
+        <div class="k">Projected Lift in Call Connection %</div>
+        <div class="v">+10–20%</div>
+        <div class="l"><strong style="color:#fff">Validated by client data.</strong> Woxsen (manual retries) → <strong style="color:#6EE7B7">58.79%</strong> connection. DY Patil (no retries) → <strong style="color:#F87171">35%</strong>. Call Retry brings that lift to every client.</div>
+      </div>
+      <div class="metric">
+        <div class="k">True Connection Rate</div>
+        <div class="v">30 → 56%</div>
+        <div class="l"><strong style="color:#fff">Proof of ROI — and a market lever.</strong> Lead-level measurement lets us defend our numbers against competitors using the same connection-rate narrative.</div>
+      </div>
+    </div>
+
+    <div class="row cols-2" style="margin-top:18px">
+      <div class="card">
+        <div class="num">What I shipped / drove</div>
+        <h3>Internal tracking + a client-facing product release.</h3>
+        <p>From WhatsApp screenshots to a client-facing intelligence layer that demonstrates ROI on every renewal conversation.</p>
+      </div>
+      <div class="card">
+        <div class="num">Why it matters</div>
+        <h3>ROI on renewals · competitive defensibility · more pulses billed.</h3>
+        <p>Every metric on this slide ties back to one decision: making the right data visible. The product moves followed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 8 — CLOSING -->
+  <section class="slide closing bg-hero bg-grid" data-slide="8">
+    <div class="quote">"Visibility is itself <em>a product decision.</em>"</div>
+    <p class="sub">When the team could see what was actually happening in real time, decisions got faster and more precise. Every improvement above was the product of building the infrastructure to ask the right questions.</p>
+    <div class="sign">Thank you · Questions Welcome</div>
+  </section>
+
+  <div class="footer">
+    <div class="brand"><div class="mark"></div>Kartik Chhabra · Founder's Award 2026</div>
+    <div class="nav">
+      <button id="prev" aria-label="Previous">‹</button>
+      <div class="counter"><span id="cur">1</span> / <span id="tot">8</span></div>
+      <button id="next" aria-label="Next">›</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const slides=[...document.querySelectorAll('.slide')];
+  const total=slides.length;
+  let i=0;
+  const cur=document.getElementById('cur');
+  const tot=document.getElementById('tot');
+  const bar=document.getElementById('progressBar');
+  tot.textContent=total;
+  function go(n){
+    i=Math.max(0,Math.min(total-1,n));
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+    cur.textContent=i+1;
+    bar.style.width=((i+1)/total*100)+'%';
+  }
+  document.getElementById('next').onclick=()=>go(i+1);
+  document.getElementById('prev').onclick=()=>go(i-1);
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(i+1)}
+    else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(i-1)}
+    else if(e.key==='Home'){go(0)}
+    else if(e.key==='End'){go(total-1)}
+  });
+  go(0);
+})();
+</script>
+</body>
+</html>
